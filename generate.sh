@@ -8,8 +8,8 @@ generate_docker() {
            --base neurodebian:stretch-non-free \
            --pkg-manager apt \
            --install convert3d ants fsl gcc g++ graphviz tree \
-                     git-annex-standalone vim emacs-nox nano less ncdu \
-                     tig git-annex-remote-rclone octave netbase \
+                     git-annex-standalone vim less ncdu \
+                     tig git-annex-remote-rclone netbase \
            --add-to-entrypoint "source /etc/fsl/fsl.sh" \
            --spm12 version=r7219 \
            --user=neuro \
@@ -78,4 +78,4 @@ generate_singularity() {
 }
 
 generate_docker > Dockerfile
-generate_singularity > Singularity
+#generate_singularity > Singularity
