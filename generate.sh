@@ -13,6 +13,7 @@ generate_docker() {
            --add-to-entrypoint "source /etc/fsl/fsl.sh" \
            --spm12 version=r7219 \
            --user=neuro \
+           --workdir /home/neuro \
            --miniconda miniconda_version="4.3.31" \
              conda_install="python=3.6 pytest jupyter jupyterlab jupyter_contrib_nbextensions
                             traits pandas matplotlib scikit-learn scikit-image seaborn nbformat nb_conda" \
@@ -26,18 +27,18 @@ generate_docker() {
            --user=root \
            --run 'mkdir /data && chmod 777 /data && chmod a+s /data' \
            --run 'mkdir /output && chmod 777 /output && chmod a+s /output' \
-           --user=neuro \
-           --run 'printf "[user]\n\tname = miykael\n\temail = michaelnotter@hotmail.com\n" > ~/.gitconfig' \
-           --run-bash 'source activate neuro && cd /data && datalad install -r ///workshops/nih-2017/ds000114 && cd ds000114 && datalad update -r && datalad get -r sub-01/ses-test/anat sub-01/ses-test/func/*fingerfootlips*' \
-           --run 'curl -L https://files.osf.io/v1/resources/fvuh8/providers/osfstorage/580705089ad5a101f17944a9 -o /data/ds000114/derivatives/fmriprep/mni_icbm152_nlin_asym_09c.tar.gz && tar xf /data/ds000114/derivatives/fmriprep/mni_icbm152_nlin_asym_09c.tar.gz -C /data/ds000114/derivatives/fmriprep/. && rm /data/ds000114/derivatives/fmriprep/mni_icbm152_nlin_asym_09c.tar.gz && find /data/ds000114/derivatives/fmriprep/mni_icbm152_nlin_asym_09c -type f -not -name ?mm_T1.nii.gz -not -name ?mm_brainmask.nii.gz -not -name ?mm_tpm*.nii.gz -delete' \
-           --copy . "/home/neuro/nipype_tutorial" \
-           --user=root \
-           --run 'chown -R neuro /home/neuro/nipype_tutorial' \
-           --run 'rm -rf /opt/conda/pkgs/*' \
-           --user=neuro \
-           --run 'mkdir -p ~/.jupyter && echo c.NotebookApp.ip = \"0.0.0.0\" > ~/.jupyter/jupyter_notebook_config.py' \
-           --workdir /home/neuro/nipype_tutorial \
-           --cmd jupyter-notebook
+           --workdir /data \
+           #--user=neuro \
+           #--run 'printf "[user]\n\tname = miykael\n\temail = michaelnotter@hotmail.com\n" > ~/.gitconfig' \
+           #--run-bash 'source activate neuro && cd /data && datalad install -r ///workshops/nih-2017/ds000114 && cd ds000114 && datalad update -r && datalad get -r sub-01/ses-test/anat sub-01/ses-test/func/*fingerfootlips*' \
+           #--run 'curl -L https://files.osf.io/v1/resources/fvuh8/providers/osfstorage/580705089ad5a101f17944a9 -o /data/ds000114/derivatives/fmriprep/mni_icbm152_nlin_asym_09c.tar.gz && tar xf /data/ds000114/derivatives/fmriprep/mni_icbm152_nlin_asym_09c.tar.gz -C /data/ds000114/derivatives/fmriprep/. && rm /data/ds000114/derivatives/fmriprep/mni_icbm152_nlin_asym_09c.tar.gz && find /data/ds000114/derivatives/fmriprep/mni_icbm152_nlin_asym_09c -type f -not -name ?mm_T1.nii.gz -not -name ?mm_brainmask.nii.gz -not -name ?mm_tpm*.nii.gz -delete' \
+           #--copy . "/home/neuro/nipype_tutorial" \
+           #--user=root \
+           #--run 'chown -R neuro /home/neuro/nipype_tutorial' \
+           #--run 'rm -rf /opt/conda/pkgs/*' \
+           #--user=neuro \
+           #--run 'mkdir -p ~/.jupyter && echo c.NotebookApp.ip = \"0.0.0.0\" > ~/.jupyter/jupyter_notebook_config.py' \
+           #--cmd jupyter-notebook
 }
 
 # Generate Singularity file (does not include last --cmd option)
