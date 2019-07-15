@@ -12,10 +12,12 @@ generate_docker() {
                      tig git-annex-remote-rclone netbase \
            --add-to-entrypoint "source /etc/fsl/fsl.sh" \
            --spm12 version=r7219 \
+		   --freesurfer version=6.0.0 method=binaries \
+		   license_path="/home/foucault/environment/freesurfer_license/license.txt" \
            --user=neuro \
            --workdir /home/neuro \
            --miniconda miniconda_version="4.3.31" \
-             conda_install="python=3.6 pytest jupyter jupyterlab jupyter_contrib_nbextensions
+             conda_install="python=3.6 pytest ipython jupyter jupyterlab jupyter_contrib_nbextensions
                             traits pandas matplotlib scikit-learn scikit-image seaborn nbformat nb_conda" \
              pip_install="https://github.com/nipy/nipype/tarball/master
                           https://github.com/INCF/pybids/tarball/0.7.1
@@ -79,4 +81,5 @@ generate_singularity() {
 }
 
 generate_docker > Dockerfile
+docker build --tag nipype_l:0.0.2 - < Dockerfile
 #generate_singularity > Singularity
